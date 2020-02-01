@@ -385,6 +385,44 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" >
+            
+                <span>（转）解决死锁之路 - 常见 SQL 语句的加锁分析</span>
+        </a>
+        <div class="abstract-content">
+            
+原文：https://www.aneasystone.com/archives/2017/12/solving-dead-locks-three.html
+
+一、基本的加锁规则虽然 MySQL 的锁各式各样，但是有些基本的加锁原则是保持不变的，譬如：快照读是不加锁的，更新语句肯定是加排它锁的，RC 隔离级别是没有间隙锁的等等。这些规则整理如下，后面就不再重复介绍了：
+
+常见语句的加锁
+
+SELECT … 语句正常情况下为快照读，不加锁；
+SELECT … LOCK IN SHARE MODE 语句为当前读，加 S 锁；
+SELECT … FOR UPDATE 语句为当前读，加 X 锁；...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Mysql">Mysql</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/10/04/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95/" >
             
                 <span>Mysql学习笔记——索引</span>
@@ -548,11 +586,16 @@ go-sql...
         
     
         
+    
+        
+    
+        
+    
+        
+    
+        
             
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/example_qr.png" />
-                </span>
+                <a href="https://www.zhihu.com/people/zhenlang-huo" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
             
         
     
@@ -563,13 +606,9 @@ go-sql...
         
     
         
-    
-        
-    
-        
-    
-        
-    
+            
+                <a href="https://www.instagram.com/zhenlanghuo/" class="iconfont-archer instagram" target="_blank" title=instagram></a>
+            
         
     
         
@@ -890,9 +929,24 @@ go-sql...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -909,6 +963,11 @@ go-sql...
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2020/01/22/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%81/" >Mysql学习笔记——锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/21</span><a class="archive-post-title" href= "/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" >（转）解决死锁之路 - 常见 SQL 语句的加锁分析</a>
         </li>
     
     

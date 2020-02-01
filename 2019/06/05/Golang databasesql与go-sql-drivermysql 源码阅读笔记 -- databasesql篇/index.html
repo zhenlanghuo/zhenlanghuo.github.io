@@ -274,7 +274,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">6k</span>阅读时长: <span class="post-count reading-time">28 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">6k</span>阅读时长: <span class="post-count reading-time">27 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -494,7 +494,7 @@ height:50vh;
 <h3 id="Rows-Next-amp-Rows-NextResultSet-amp-Rows-Scan-amp-Rows-Close"><a href="#Rows-Next-amp-Rows-NextResultSet-amp-Rows-Scan-amp-Rows-Close" class="headerlink" title="Rows.Next &amp; Rows.NextResultSet &amp; Rows.Scan &amp; Rows.Close"></a>Rows.Next &amp; Rows.NextResultSet &amp; Rows.Scan &amp; Rows.Close</h3><p><code>DB.Query</code>和<code>DBQueryContext</code>接口返回的是<code>Rows</code>对象，还需要调用<code>Rows.Next</code>、<code>Rows.NextResultSet</code>和<code>Rows.Scan</code>函数进行数据的读取，如下所示：</p>
 <figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rows, _ := db.Query()</span><br><span class="line"><span class="keyword">defer</span> rows.Close()</span><br><span class="line"><span class="keyword">for</span> rows.Next() &#123;</span><br><span class="line">    rows.Scan()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 如果是多结果集查询</span></span><br><span class="line"><span class="keyword">for</span> rows.NextResultSet() &#123;</span><br><span class="line">    <span class="keyword">for</span> rows.Next() &#123;</span><br><span class="line">        rows.Scan()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;database&#x2F;sql&#x2F;sql.go</span><br><span class="line">func (rs *Rows) Next() bool &#123;</span><br><span class="line">	var doClose, ok bool</span><br><span class="line">	withLock(rs.closemu.RLocker(), func() &#123;</span><br><span class="line">		doClose, ok &#x3D; rs.nextLocked()</span><br><span class="line">	&#125;)</span><br><span class="line">	if doClose &#123;</span><br><span class="line">		rs.Close()</span><br><span class="line">	&#125;</span><br><span class="line">	return ok</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;*--------------------------------------------------------*&#x2F;</span><br><span class="line"></span><br><span class="line">func (rs *Rows) nextLocked() (doClose, ok bool) &#123;</span><br><span class="line">	if rs.closed &#123;</span><br><span class="line">		return false, false</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	rs.dc.Lock()</span><br><span class="line">	defer rs.dc.Unlock()</span><br><span class="line"></span><br><span class="line">	if rs.lastcols &#x3D;&#x3D; nil &#123;</span><br><span class="line">		rs.lastcols &#x3D; make([]driver.Value, len(rs.rowsi.Columns()))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 调用驱动的rows.Next接口，读取一行数据到rs.lastcols</span><br><span class="line">	rs.lasterr &#x3D; rs.rowsi.Next(rs.lastcols)</span><br><span class="line">	if rs.lasterr !&#x3D; nil &#123;</span><br><span class="line">		&#x2F;&#x2F; Close the connection if there is a driver error.</span><br><span class="line">		if rs.lasterr !&#x3D; io.EOF &#123;</span><br><span class="line">			return true, false</span><br><span class="line">		&#125;</span><br><span class="line">		nextResultSet, ok :&#x3D; rs.rowsi.(driver.RowsNextResultSet)</span><br><span class="line">		if !ok &#123;</span><br><span class="line">			return true, false</span><br><span class="line">		&#125;</span><br><span class="line">		&#x2F;&#x2F; 检查连接的Socket中是否有下一个结果集的数据，如果没有则可以关闭连接</span><br><span class="line">		if !nextResultSet.HasNextResultSet() &#123;</span><br><span class="line">			doClose &#x3D; true</span><br><span class="line">		&#125;</span><br><span class="line">		return doClose, false</span><br><span class="line">	&#125;</span><br><span class="line">	return false, true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//database/sql/sql.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rs *Rows)</span> <span class="title">Next</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> doClose, ok <span class="keyword">bool</span></span><br><span class="line">	withLock(rs.closemu.RLocker(), <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		doClose, ok = rs.nextLocked()</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">if</span> doClose &#123;</span><br><span class="line">		rs.Close()</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ok</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*--------------------------------------------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rs *Rows)</span> <span class="title">nextLocked</span><span class="params">()</span> <span class="params">(doClose, ok <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> rs.closed &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>, <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	rs.dc.Lock()</span><br><span class="line">	<span class="keyword">defer</span> rs.dc.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> rs.lastcols == <span class="literal">nil</span> &#123;</span><br><span class="line">		rs.lastcols = <span class="built_in">make</span>([]driver.Value, <span class="built_in">len</span>(rs.rowsi.Columns()))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用驱动的rows.Next接口，读取一行数据到rs.lastcols</span></span><br><span class="line">	rs.lasterr = rs.rowsi.Next(rs.lastcols)</span><br><span class="line">	<span class="keyword">if</span> rs.lasterr != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// Close the connection if there is a driver error.</span></span><br><span class="line">		<span class="keyword">if</span> rs.lasterr != io.EOF &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>, <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">		nextResultSet, ok := rs.rowsi.(driver.RowsNextResultSet)</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>, <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 检查连接的Socket中是否有下一个结果集的数据，如果没有则可以关闭连接</span></span><br><span class="line">		<span class="keyword">if</span> !nextResultSet.HasNextResultSet() &#123;</span><br><span class="line">			doClose = <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> doClose, <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>, <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>Rows.nextLocked</code>返回两个值，一个是doClose，一个是ok；doClose表示连接是否关闭了，ok表示是否有读取到一行数据：</li>
 </ul>
@@ -596,11 +596,16 @@ height:50vh;
         
     
         
+    
+        
+    
+        
+    
+        
+    
+        
             
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/example_qr.png" />
-                </span>
+                <a href="https://www.zhihu.com/people/zhenlang-huo" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
             
         
     
@@ -611,13 +616,9 @@ height:50vh;
         
     
         
-    
-        
-    
-        
-    
-        
-    
+            
+                <a href="https://www.instagram.com/zhenlanghuo/" class="iconfont-archer instagram" target="_blank" title=instagram></a>
+            
         
     
         
@@ -956,9 +957,24 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -975,6 +991,11 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2020/01/22/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%81/" >Mysql学习笔记——锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/21</span><a class="archive-post-title" href= "/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" >（转）解决死锁之路 - 常见 SQL 语句的加锁分析</a>
         </li>
     
     

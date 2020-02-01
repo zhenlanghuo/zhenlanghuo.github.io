@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.1k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -488,7 +488,9 @@ height:50vh;
 <li>优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁。</li>
 <li>一个 bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止。</li>
 </ul>
-<h3 id="加锁例子"><a href="#加锁例子" class="headerlink" title="加锁例子"></a>加锁例子</h3><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><strong>两阶段锁协议</strong>：在InnoDB事务中，行锁是在需要的时候才加上的，但是并不是不需要了就立刻释放，而是要等到事务结束时才释放。</p>
+<h3 id="加锁例子"><a href="#加锁例子" class="headerlink" title="加锁例子"></a>加锁例子</h3><a href="/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" title="（转）解决死锁之路 - 常见 SQL 语句的加锁分析">（转）解决死锁之路 - 常见 SQL 语句的加锁分析</a>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><strong>两阶段锁协议</strong>：在InnoDB事务中，行锁是在需要的时候才加上的，但是并不是不需要了就立刻释放，而是要等到事务结束时才释放。</p>
 <p>如果事务中需要锁多个行，要把最可能造成锁冲突、最可能影响并发度的锁尽量往后放。</p>
 <h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a><strong>参考</strong>：</h2><p><a href="https://www.aneasystone.com/archives/2017/11/solving-dead-locks-two.html" target="_blank" rel="noopener">解决死锁之路 - 了解常见的锁类型</a><br><a href="https://time.geekbang.org/column/article/78427" target="_blank" rel="noopener">MySQL实战45讲：用动态的观点看加锁</a></p>
 
@@ -503,8 +505,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/10/04/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95/" title= "Mysql学习笔记——索引">
-                    <div class="prevTitle">Mysql学习笔记——索引</div>
+                <a href= "/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" title= "（转）解决死锁之路 - 常见 SQL 语句的加锁分析">
+                    <div class="prevTitle">（转）解决死锁之路 - 常见 SQL 语句的加锁分析</div>
                 </a>
             
         </li>
@@ -546,11 +548,16 @@ height:50vh;
         
     
         
+    
+        
+    
+        
+    
+        
+    
+        
             
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/example_qr.png" />
-                </span>
+                <a href="https://www.zhihu.com/people/zhenlang-huo" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
             
         
     
@@ -561,13 +568,9 @@ height:50vh;
         
     
         
-    
-        
-    
-        
-    
-        
-    
+            
+                <a href="https://www.instagram.com/zhenlanghuo/" class="iconfont-archer instagram" target="_blank" title=instagram></a>
+            
         
     
         
@@ -906,9 +909,24 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -925,6 +943,11 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2020/01/22/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%81/" >Mysql学习笔记——锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/21</span><a class="archive-post-title" href= "/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" >（转）解决死锁之路 - 常见 SQL 语句的加锁分析</a>
         </li>
     
     
