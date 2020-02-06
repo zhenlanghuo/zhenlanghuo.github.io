@@ -346,27 +346,25 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/05/17/%E5%93%88%E5%B8%8C%E7%A2%B0%E6%92%9E%E6%94%BB%E5%87%BB/" >
+        <a class="abstract-title" href = "/2020/02/06/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E4%B8%8E%E5%BD%92%E6%A1%A3%E6%97%A5%E5%BF%97/" >
             
-                <span>哈希碰撞攻击</span>
+                <span>Mysql学习笔记——重做日志与归档日志</span>
         </a>
         <div class="abstract-content">
-            
-最近同学阿里面试的时候被问到什么是哈希碰撞攻击，然后今天巧合下看到这篇文章: PHP哈希表碰撞攻击原理，就决定做一下简单的记录
-
-
-基本原理哈希表的原理是用数组来保存键值对，键值对存放的位置（下标）由键的哈希值决定，键的哈希值可以在参数时间内计算出来，这样哈希表插入、查找和删除的时间复杂度为O(1)，但是这是理想的情况下，真实的情况是，键的哈希值存在冲突碰撞，也就是不同的键的哈希值可能相等，一个好的哈希函数应该是尽可能的减少碰撞。解决冲突碰撞的方法有分为两种：开放地址法和    链接法，这里不具体展开。哈希表一般都采用链接法来解决冲突碰撞，也就是用一个链表来将分配到同一个桶（键的哈希值...
+            Mysql中有两种比较重要的日志，一个 Mysql Server 实现的 归档日志(binlog），另外一个是 InnoDB 引擎特有的 重做日志（redo log）。
+redo logredo log 是 InnoDB 中用来实现崩溃恢复的日志。
+InnoDB 会将更新操作的内容保存到内存缓冲区中，在合适的时机或不得已的情况下再把缓冲区的数据更新到磁盘中，这样可以减少磁盘的随机读写，提高更新操作的性能。但是一旦程序崩溃，缓冲区中的数据就会丢失，为了实现崩溃恢复，InnoDB引入 redo log，执行更新语句的时候不但需要把更新的数据保存到内存缓冲区，还需要把更新的数据写到redo l...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/05/17</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/06</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "哈希">哈希</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Mysql">Mysql</a>
     
 </div>
             

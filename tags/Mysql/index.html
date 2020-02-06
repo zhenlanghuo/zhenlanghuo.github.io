@@ -346,6 +346,37 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/06/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E4%B8%8E%E5%BD%92%E6%A1%A3%E6%97%A5%E5%BF%97/" >
+            
+                <span>Mysql学习笔记——重做日志与归档日志</span>
+        </a>
+        <div class="abstract-content">
+            Mysql中有两种比较重要的日志，一个 Mysql Server 实现的 归档日志(binlog），另外一个是 InnoDB 引擎特有的 重做日志（redo log）。
+redo logredo log 是 InnoDB 中用来实现崩溃恢复的日志。
+InnoDB 会将更新操作的内容保存到内存缓冲区中，在合适的时机或不得已的情况下再把缓冲区的数据更新到磁盘中，这样可以减少磁盘的随机读写，提高更新操作的性能。但是一旦程序崩溃，缓冲区中的数据就会丢失，为了实现崩溃恢复，InnoDB引入 redo log，执行更新语句的时候不但需要把更新的数据保存到内存缓冲区，还需要把更新的数据写到redo l...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/06</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Mysql">Mysql</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/01/22/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%81/" >
             
                 <span>Mysql学习笔记——锁</span>
@@ -944,9 +975,24 @@ go-sql...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 24
         </div>
         <!-- search  -->
         
@@ -959,6 +1005,11 @@ go-sql...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/06</span><a class="archive-post-title" href= "/2020/02/06/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E4%B8%8E%E5%BD%92%E6%A1%A3%E6%97%A5%E5%BF%97/" >Mysql学习笔记——重做日志与归档日志</a>
+        </li>
     
     
         <li class="archive-post-item">
