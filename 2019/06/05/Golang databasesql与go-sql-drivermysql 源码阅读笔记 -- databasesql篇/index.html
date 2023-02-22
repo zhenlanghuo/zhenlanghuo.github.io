@@ -403,8 +403,10 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>偶然看见<a target="_blank" rel="noopener" href="http://luodw.cc/2016/08/28/golang02/">golang之database/sql与go-sql-driver</a>这篇博客，让我有了阅读学习go数据库访问接口和mysql驱动实现的源码的想法和动力。</p>
+        <blockquote>
+<p>偶然看见<a target="_blank" rel="noopener" href="http://luodw.cc/2016/08/28/golang02/">golang之database/sql与go-sql-driver</a>这篇博客，让我有了阅读学习go数据库访问接口和mysql驱动实现的源码的想法和动力。</p>
 <p>因为刚好工作负责的组件中就是需要使用mysql，之前就出现过一些问题，但是因为当时对<code>go database/sql</code>和<code>go-sql-driver/mysql</code>的源码一点都不熟悉，只会用几个api，对于问题出现的原因一头雾水，希望通过阅读学习源码提升能力的同时，以后出现问题可以更加清楚应该怎么解决。</p>
+</blockquote>
 <hr>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>database/sql</code>主要是提供了对数据库的读写操作的接口和数据库连接池功能，需要向其注册相应的数据库驱动才能工作。</p>
 <p><code>go-sql-driver/mysql</code>是mysql数据库驱动，mysql客户端的真正实现，负责与mysql服务端进行交互，完成连接、读写操作。</p>
