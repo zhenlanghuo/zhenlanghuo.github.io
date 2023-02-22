@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ch">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="zhenlanghuo">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="zhenlanghuo">
+    
+    <meta name="keywords" content="mysql,java,go">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>动态规划题集及题解 · zhenlanghuo&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/avatar/avatar.jpg" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >zhenlanghuo&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">动态规划题集及题解</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>zhenlanghuo's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/image/chris-benson-228465_1080_c.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            动态规划题集及题解
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "动态规划">动态规划</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.5k</span>阅读时长: <span class="post-count reading-time">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2017/06/20</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p>记录做过的的动态规划的题目<br>不定期更新</p>
+</blockquote>
+<hr>
+<h2 id="最长递增子序列"><a href="#最长递增子序列" class="headerlink" title="最长递增子序列"></a><strong>最长递增子序列</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/116376/summary">面试常考算法题(九)-经典动态规划1-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/585d46a1447b4064b749f08c2ab9ce66">[编程题]最长递增子序列-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>对于一个数字序列，请设计一个复杂度为O(nlogn)的算法，返回该序列的最长上升子序列的长度，这里的子序列定义为这样一个序列U1，U2…，其中Ui &lt; Ui+1，且A[Ui] &lt; A[Ui+1]。<br>给定一个数字序列A及序列的长度n，请返回最长上升子序列的长度。</p>
+<p><strong>测试样例</strong><br>[2,1,4,3,1,5,6],7<br>返回：4</p>
+<p><strong>解题思路</strong><br>dp[i]记录长度为i的上升子序列的最后一个数中的最小值（可能有多个长度为i的上升子序列，我们只记录最后一个数最小的那个）<br>每次遍历的时候在dp[0,max]中找出第一个比A[i]大的数进行替换</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">findLongest</span><span class="params">(<span class="type">int</span>[] A,<span class="type">int</span> n)</span>&#123;</span><br><span class="line">	<span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">	dp[<span class="number">0</span>] = A[<span class="number">0</span>];</span><br><span class="line">	<span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> binarySearch(dp, <span class="number">0</span>, max, A[i]);</span><br><span class="line">		<span class="keyword">if</span>(index&lt;n)&#123;</span><br><span class="line">			dp[index] = A[i];</span><br><span class="line">			<span class="keyword">if</span>(index&gt;max)</span><br><span class="line">				max = index;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> max+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回第一个比target大的数的下标</span></span><br><span class="line"><span class="comment"> * 如果没有target大的数，则返回end+1</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] dp,<span class="type">int</span> start,<span class="type">int</span> end,<span class="type">int</span> target)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(start==end)&#123;</span><br><span class="line">		<span class="keyword">if</span>(dp[start]&gt;=target)</span><br><span class="line">			<span class="keyword">return</span> start;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">return</span> start+<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (start+end)/<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">if</span>(dp[mid]&gt;target)&#123;</span><br><span class="line">		<span class="keyword">if</span>(mid==start)</span><br><span class="line">			<span class="keyword">return</span> start;</span><br><span class="line">		<span class="keyword">return</span> binarySearch(dp, start, mid-<span class="number">1</span>, target);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(dp[mid]&lt;target)</span><br><span class="line">		<span class="keyword">return</span> binarySearch(dp, mid+<span class="number">1</span>, end, target);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> mid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">	<span class="type">int</span>[] A = &#123;<span class="number">2</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">6</span>&#125;;</span><br><span class="line">	System.out.println(findLongest(A, A.length));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a><strong>最长公共子序列</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/116376/summary">面试常考算法题(九)-经典动态规划1-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/c996bbb77dd447d681ec6907ccfb488a">[编程题]最长公共子序列-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>对于两个字符串，请设计一个高效算法，求他们的最长公共子序列的长度，这里的最长公共子序列定义为有两个序列U1,U2,U3…Un和V1,V2,V3…Vn,其中Ui&amp;ltUi+1，Vi&amp;ltVi+1。且A[Ui]== B[Vi]。<br>给定两个字符串A和B，同时给定两个串的长度n和m，请返回最长公共子序列的长度。保证两串长度均小于等于300。</p>
+<p><strong>测试样例</strong><br>“1A2C3D4B56”,10,”B1D23CA45B6A”,12<br>返回：6</p>
+<p><strong>解题思路</strong><br>dp[i][j]代表子串A[0…i]和子串B[0…j]最长公共子序列的长度<br>如果A[i]==B[j],dp[i][j]=dp[i-1][j-1]<br>否则，dp[i][j]=max{dp[i][j-1],dp[i-1][j]}</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">findLCS</span><span class="params">(String A, <span class="type">int</span> n, String B, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">       <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][m+<span class="number">1</span>];</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=m;i++)&#123;</span><br><span class="line">           dp[<span class="number">0</span>][i] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++)&#123;</span><br><span class="line">           dp[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">        </span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">               <span class="type">int</span> <span class="variable">tempMax</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(A.charAt(i-<span class="number">1</span>)==B.charAt(j-<span class="number">1</span>))</span><br><span class="line">                   tempMax = dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">               <span class="keyword">else</span></span><br><span class="line">                   tempMax = Math.max(dp[i][j-<span class="number">1</span>], dp[i-<span class="number">1</span>][j]);</span><br><span class="line">               dp[i][j] = tempMax;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">return</span> dp[n][m];</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">	<span class="type">String</span> <span class="variable">A</span> <span class="operator">=</span> <span class="string">&quot;rsymsknwbiapzhuoeyhjubogitoqfkswhbqhwqzyjuvdlzjlhlaubecnkzgvurdsuvqghpjazgxvue&quot;</span>;</span><br><span class="line">	<span class="type">String</span> <span class="variable">B</span> <span class="operator">=</span> <span class="string">&quot;sclzdzbtrrkdybusjyjrszzqaebkpdtqnqadndvkenqirqqsplmceuuzhukcxxnkcyyvucqjlkysfarxkulpayvtwfmfaqpikzdslpklomafvtesecxygahwnyljldutzsoywiwkugerfbfefcqfvcrzcvbevufzbkbhfeshhdasqo&quot;</span>;</span><br><span class="line">	System.out.println(findLCS(A, A.length(), B, B.length()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="最长公共子串"><a href="#最长公共子串" class="headerlink" title="最长公共子串"></a><strong>最长公共子串</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/116376/summary">面试常考算法题(九)-经典动态规划1-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/02e7cc263f8a49e8b1e1dc9c116f7602">[编程题]最长公共子串-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>对于两个字符串，请设计一个时间复杂度为O(m*n)的算法(这里的m和n为两串的长度)，求出两串的最长公共子串的长度。这里的最长公共子串的定义为两个序列U1,U2,..Un和V1,V2,…Vn，其中Ui + 1 == Ui+1,Vi + 1 == Vi+1，同时Ui == Vi。<br>给定两个字符串A和B，同时给定两串的长度n和m。</p>
+<p><strong>测试样例</strong><br>“1AB2345CD”,9,”12345EF”,7<br>返回：4</p>
+<p><strong>解题思路</strong><br>dp[i][j]代表以A[i-1]和B[j-1]为结尾的公共子串的最长长度（若A[i-1]!=B[j-1],dp[i][j]==0）<br>如果A[i-1]==B[i-1]&amp;&amp;A[i-2]==B[i-2], dp[i][j] == dp[i-1][j-1] + 1<br>如果A[i-1]==B[i-1], dp[i][j] = 1<br>如果A[i-1]!=B[i-1], dp[i][j] = 0</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">findLongest</span><span class="params">(String A, <span class="type">int</span> n, String B, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">       <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][m+<span class="number">1</span>];</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++)&#123;</span><br><span class="line">       	dp[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=m;i++)&#123;</span><br><span class="line">       	dp[<span class="number">0</span>][i] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">       	<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">       		<span class="keyword">if</span>(A.charAt(i-<span class="number">1</span>)==B.charAt(j-<span class="number">1</span>))&#123;</span><br><span class="line">       			<span class="keyword">if</span>(i-<span class="number">2</span>&gt;=<span class="number">0</span> &amp;&amp; j-<span class="number">2</span>&gt;=<span class="number">0</span> &amp;&amp; A.charAt(i-<span class="number">2</span>)==B.charAt(j-<span class="number">2</span>))</span><br><span class="line">       				dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">       			<span class="keyword">else</span>&#123;</span><br><span class="line">       				dp[i][j] = <span class="number">1</span>;</span><br><span class="line">       			&#125;</span><br><span class="line">       			</span><br><span class="line">       			<span class="keyword">if</span>(dp[i][j]&gt;max)</span><br><span class="line">           			max = dp[i][j];</span><br><span class="line">       		&#125;</span><br><span class="line">       		<span class="keyword">else</span>&#123;</span><br><span class="line">       			dp[i][j] = <span class="number">0</span>;</span><br><span class="line">       		&#125;</span><br><span class="line">       	&#125;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">	<span class="type">String</span> <span class="variable">A</span> <span class="operator">=</span> <span class="string">&quot;12345CC1235&quot;</span>;</span><br><span class="line">	<span class="type">String</span> <span class="variable">B</span> <span class="operator">=</span> <span class="string">&quot;12345B12345&quot;</span>;</span><br><span class="line">	System.out.println(findLongest(A, A.length(), B, B.length()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="最小编辑代价"><a href="#最小编辑代价" class="headerlink" title="最小编辑代价"></a><strong>最小编辑代价</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/116376/summary">面试常考算法题(九)-经典动态规划1-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/04f1731f32e246b4a19688972d5e2600">[编程题]最小编辑代价-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。<br>给定两个字符串A和B，及它们的长度和三种操作代价，请返回将A串变为B串所需要的最小代价。保证两串长度均小于等于300，且三种代价值均小于等于100。</p>
+<p><strong>测试样例</strong><br>“abc”,3,”adc”,3,5,3,100<br>返回：8</p>
+<p><strong>解题思路</strong><br>dp[i][j]代表子串A[0…i-1]变为子串B[0,,,j-1]的最小编辑距离<br>当A==”” 或者B==””时，cost是删除或插入的代价            <br>当A!=”” 且 B!= “”时            <br>A[i-1] == B[j-1] D[i][j] = D[i-1][j-1]            <br>A[i-1] != B[j-1] D[i][j] = MIN{D[i-1][j-1]+c2(修改一个值)，D[i-1][j]+c1(删除一个值)，D[i][j-1]+c0(插入一个值)} </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">findMinCost</span><span class="params">(String A, <span class="type">int</span> n, String B, <span class="type">int</span> m, <span class="type">int</span> c0, <span class="type">int</span> c1, <span class="type">int</span> c2)</span> &#123;</span><br><span class="line">	<span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][m+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		dp[i][<span class="number">0</span>] = dp[i-<span class="number">1</span>][<span class="number">0</span>] + c1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		dp[<span class="number">0</span>][i] = dp[<span class="number">0</span>][i-<span class="number">1</span>] + c0;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(A.charAt(i-<span class="number">1</span>)==B.charAt(j-<span class="number">1</span>))&#123;</span><br><span class="line">				dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				dp[i][j] = Math.min(Math.min(dp[i-<span class="number">1</span>][j]+c1, dp[i][j-<span class="number">1</span>]+c0), dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+c2);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">       <span class="keyword">return</span> dp[n][m];</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">	<span class="type">String</span> <span class="variable">A</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">	<span class="type">String</span> <span class="variable">B</span> <span class="operator">=</span> <span class="string">&quot;adc&quot;</span>;</span><br><span class="line">	Object o;</span><br><span class="line">	System.out.println(findMinCost(A, A.length(), B, B.length(), <span class="number">5</span>, <span class="number">3</span>, <span class="number">100</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="纸牌博弈"><a href="#纸牌博弈" class="headerlink" title="纸牌博弈"></a><strong>纸牌博弈</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/123743/summary">面试常考算法题(十)-经典动态规划2-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/7036f62c64ba4104a28deee98a6f53f6">[编程题]纸牌博弈-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>有一个整型数组A，代表数值不同的纸牌排成一条线。玩家a和玩家b依次拿走每张纸牌，规定玩家a先拿，玩家B后拿，但是每个玩家每次只能拿走最左或最右的纸牌，玩家a和玩家b都绝顶聪明，他们总会采用最优策略。<br>给定纸牌序列A及序列的大小n，请返回最后分数较高者得分数(相同则返回任意一个分数)。保证A中的元素均小于等于1000。且A的大小小于等于300。</p>
+<p><strong>测试样例</strong><br>[1,2,100,4],4<br>返回：101</p>
+<p><strong>解题思路</strong><br>dp[i][j]代表最优的情况，如果j-i+1是偶数，dp[i][j]代表的是先手的最优情况，如果j-i+1是奇数，dp[i][j]代表的是后手的最优情况<br>dp[i][j] = Math.max(A[i]+sum[i+1][j]-dp[i+1][j], A[j]+sum[i][j-1]-dp[i][j-1])，sum[i][j]代表A[i]到A[j]的总和<br>比如，dp[0][3]，如果拿A[0],那么在拿A[0]的情况下的最优结果是A[0]+sum[1][3]-dp[1][3] (dp[1][3]是另外一个人的最优情况)<br>同理拿A[3]的最优结果是A[3]+sum[0][2]-dp[0][2]，所以dp[0][3]的最优情况就是这两个最优结果中更优的一个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">cardGame</span><span class="params">(<span class="type">int</span>[] A, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		<span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n][n];</span><br><span class="line">		</span><br><span class="line">		<span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">		</span><br><span class="line"><span class="comment">//		int[][] sum = new int[n][n];</span></span><br><span class="line"><span class="comment">//		for(int r=1;r&lt;=n;r++)&#123;</span></span><br><span class="line"><span class="comment">//			System.out.println(&quot;r:&quot;+r);</span></span><br><span class="line"><span class="comment">//			for(int i=0;i&lt;n-r+1;i++)&#123;</span></span><br><span class="line"><span class="comment">//				int j = i+r-1;</span></span><br><span class="line"><span class="comment">//				if(i==j)</span></span><br><span class="line"><span class="comment">//					sum[i][j] = A[j];</span></span><br><span class="line"><span class="comment">//				else</span></span><br><span class="line"><span class="comment">//					sum[i][j] = A[j] + sum[i][j-1];</span></span><br><span class="line"><span class="comment">//				System.out.println(&quot;i:&quot;+i+&quot; j:&quot;+j+&quot;   &quot;+sum[i][j]);</span></span><br><span class="line"><span class="comment">//			&#125;</span></span><br><span class="line"><span class="comment">//		&#125;</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//优化sum数组，sum[i]代表A[0]到A[i-1]的总和</span></span><br><span class="line">		<span class="comment">//sum[j]-sum[i]代表A[i]到A[j-1]的总和</span></span><br><span class="line">		<span class="type">int</span>[] sum = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">			sum[i] = sum[i-<span class="number">1</span>] + A[i-<span class="number">1</span>];</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">1</span>;r&lt;=n;r++)&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;r:&quot;</span>+r);</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n-r+<span class="number">1</span>;i++)&#123;</span><br><span class="line">				<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i+r-<span class="number">1</span>;</span><br><span class="line">				<span class="keyword">if</span>(i==j)</span><br><span class="line">					dp[i][j] = A[i];</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					<span class="comment">//dp[i][j] = Math.max(A[i]+sum[i+1][j]-dp[i+1][j], A[j]+sum[i][j-1]-dp[i][j-1]);</span></span><br><span class="line">					dp[i][j] = Math.max(A[i]+(sum[j+<span class="number">1</span>]-sum[i+<span class="number">1</span>])-dp[i+<span class="number">1</span>][j], A[j]+(sum[j]-sum[i])-dp[i][j-<span class="number">1</span>]);</span><br><span class="line">				</span><br><span class="line">				System.out.println(<span class="string">&quot;i:&quot;</span>+i+<span class="string">&quot; j:&quot;</span>+j+<span class="string">&quot;   &quot;</span>+dp[i][j]);</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">if</span>(dp[i][j]&gt;max)</span><br><span class="line">					max = dp[i][j];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//return Math.max(dp[0][n-1], sum[0][n-1]-dp[0][n-1]);</span></span><br><span class="line">		<span class="keyword">return</span> Math.max(dp[<span class="number">0</span>][n-<span class="number">1</span>], sum[n]-dp[<span class="number">0</span>][n-<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">		<span class="type">int</span>[] A = &#123;<span class="number">19</span>,<span class="number">11</span>,<span class="number">45</span>,<span class="number">45</span>,<span class="number">43</span>,<span class="number">0</span>,<span class="number">77</span>,<span class="number">78</span>,<span class="number">86</span>,<span class="number">50</span>,<span class="number">40</span>,<span class="number">12</span>,<span class="number">35</span>,<span class="number">26</span>,<span class="number">35</span>,<span class="number">3</span>,<span class="number">58</span>,<span class="number">24</span>,<span class="number">63</span>,<span class="number">79</span>,<span class="number">23</span>,<span class="number">59</span>,<span class="number">8</span>,<span class="number">64</span>,<span class="number">99</span>,<span class="number">68</span>,<span class="number">35</span>,<span class="number">28</span>,<span class="number">61</span>,<span class="number">72</span>,<span class="number">54</span>,<span class="number">30</span>,<span class="number">50</span>,<span class="number">70</span>,<span class="number">40</span>,<span class="number">52</span>,<span class="number">82</span>,<span class="number">34</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">46</span>,<span class="number">22</span>,<span class="number">84</span>,<span class="number">67</span>,<span class="number">70</span>,<span class="number">56</span>,<span class="number">11</span>,<span class="number">59</span>,<span class="number">54</span>,<span class="number">60</span>,<span class="number">97</span>,<span class="number">38</span>,<span class="number">0</span>,<span class="number">90</span>,<span class="number">81</span>,<span class="number">44</span>,<span class="number">75</span>,<span class="number">76</span>,<span class="number">74</span>,<span class="number">86</span>,<span class="number">73</span>,<span class="number">90</span>,<span class="number">53</span>,<span class="number">70</span>,<span class="number">56</span>,<span class="number">92</span>,<span class="number">50</span>,<span class="number">84</span>,<span class="number">95</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">50</span>,<span class="number">39</span>,<span class="number">32</span>,<span class="number">14</span>,<span class="number">93</span>,<span class="number">1</span>,<span class="number">72</span>&#125;;</span><br><span class="line">		System.out.println(cardGame(A, A.length));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="随机的机器人"><a href="#随机的机器人" class="headerlink" title="随机的机器人"></a><strong>随机的机器人</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/5507925/summary">2017年校招全国统一模拟笔试(第四场)编程题集合-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/f288f6d593bd401a8923fc9dbb9cef67">[编程题]随机的机器人-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>有一条无限长的纸带,分割成一系列的格子,最开始所有格子初始是白色。现在在一个格子上放上一个萌萌的机器人(放上的这个格子也会被染红),机器人一旦走到某个格子上,就会把这个格子涂成红色。现在给出一个整数n,机器人现在会在纸带上走n步。每一步,机器人都会向左或者向右走一个格子,两种情况概率相等。机器人做出的所有随机选择都是独立的。现在需要计算出最后纸带上红色格子的期望值。 </p>
+<p><strong>输入描述</strong><br>输入包括一个整数n(0 ≤ n ≤ 500),即机器人行走的步数。</p>
+<p><strong>输出描述</strong><br>输出一个实数,表示红色格子的期望个数,保留一位小数。</p>
+<p><strong>输入例子</strong><br>4</p>
+<p><strong>输出例子</strong><br>3.4</p>
+<p><strong>解题思路</strong><br>dp[i%2][j][k]表示走了i步之后恰好有j个红色格子,并且此时机器人正好站在第k个红色格子上的概率。<br>最后求一个可能的状态的带权和就是所求期望</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">	<span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">	<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">	</span><br><span class="line">	<span class="type">double</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">double</span>[<span class="number">2</span>][n+<span class="number">3</span>][n+<span class="number">3</span>];</span><br><span class="line">	</span><br><span class="line">	dp[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="type">int</span> <span class="variable">cur</span> <span class="operator">=</span> i%<span class="number">2</span>;</span><br><span class="line">		<span class="type">int</span> <span class="variable">old</span> <span class="operator">=</span> <span class="number">1</span> - (i%<span class="number">2</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=i+<span class="number">1</span>;j++)&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;j;k++)&#123;</span><br><span class="line">				dp[cur][j][k] = <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=i+<span class="number">1</span>;j++)&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;j;k++)&#123;</span><br><span class="line">				<span class="comment">//向右走</span></span><br><span class="line">				<span class="type">int</span> <span class="variable">pos1</span> <span class="operator">=</span> j;</span><br><span class="line">				<span class="type">int</span> <span class="variable">pos2</span> <span class="operator">=</span> k+<span class="number">1</span>;</span><br><span class="line">				<span class="comment">//检查pos1是否等于pos2，如果是的话，向右走将会增加一个红色格子</span></span><br><span class="line">				<span class="keyword">if</span>(pos1==pos2)</span><br><span class="line">					pos1++;</span><br><span class="line">				dp[cur][pos1][pos2] += dp[old][j][k]*<span class="number">0.5</span>;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//向左走</span></span><br><span class="line">				pos1 = j;</span><br><span class="line">				pos2 = k-<span class="number">1</span>;</span><br><span class="line">				<span class="comment">//检查pos1是否等于-1，如果是的话，向左走将会增加一个红色格子</span></span><br><span class="line">				<span class="keyword">if</span>(pos2==-<span class="number">1</span>)&#123;</span><br><span class="line">					pos1++;</span><br><span class="line">					pos2++;</span><br><span class="line">				&#125;</span><br><span class="line">				dp[cur][pos1][pos2] += dp[old][j][k]*<span class="number">0.5</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">double</span> <span class="variable">reslut</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n+<span class="number">1</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">			reslut += i*dp[n%<span class="number">2</span>][i][j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	System.out.println(String.format(<span class="string">&quot;%.1f&quot;</span>, reslut));</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="逃离农场"><a href="#逃离农场" class="headerlink" title="逃离农场"></a><strong>逃离农场</strong></h2><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/5507925/summary">2017年校招全国统一模拟笔试(第四场)编程题集合-牛客网</a><br> <a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/2f050f7a6ea7439a84f294f0e16f53a3">[编程题]逃离农场-牛客网</a></p>
+</blockquote>
+<p><strong>题目</strong><br>牛牛在农场饲养了n只奶牛,依次编号为0到n-1,牛牛的好朋友羊羊帮牛牛照看着农场.有一天羊羊看到农场中逃走了k只奶牛,但是他只会告诉牛牛逃走的k只奶牛的编号之和能被n整除。你现在需要帮牛牛计算有多少种不同的逃走的奶牛群。因为结果可能很大,输出结果对1,000,000,007取模。</p>
+<p>例如n = 7 k = 4:<br>7只奶牛依次编号为0到6, 逃走了4只<br>编号和为7的有:{0, 1, 2, 4}<br>编号和为14的有:{0, 3, 5, 6}, {1, 2, 5, 6}, {1, 3, 4, 6},{2, 3, 4, 5}<br>4只牛的编号和不会大于18,所以输出5. </p>
+<p><strong>输入描述</strong><br>输入包括一行,两个整数n和k(1 ≤ n ≤ 1000),(1 ≤ k ≤ 50),以空格分割。</p>
+<p><strong>输出描述</strong><br>输出一个整数表示题设所求的种数。</p>
+<p><strong>输入例子</strong><br>7 4</p>
+<p><strong>输出例子</strong><br>5</p>
+<p><strong>解题思路</strong><br>dp[i][k][sum]表示前i个奶牛中选取k个他们的编号和对n取模为sum的方案数<br>dp[i][k][sum] = dp[i - 1][k][sum] + dp[i - 1][k - 1][(sum - i + n) % n]<br>然后可以滚动优化或者压缩一维空间。<br>压缩一维空间的道理就好像01背包问题的优化一样，每一次只用到前一次的值，第二层循环变成是递减的就可以使到，在计算dp[j][sum]的时候可以用到前一次的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span>&#123;</span><br><span class="line">	<span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">	<span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">	<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> in.nextInt();</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">51</span>][<span class="number">1005</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> <span class="variable">mod</span> <span class="operator">=</span> <span class="number">1000000007</span>;</span><br><span class="line">	</span><br><span class="line">	dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=k;j&gt;<span class="number">0</span>;j--)&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>;x&lt;n;x++)&#123;</span><br><span class="line">				dp[j][x] = (dp[j][x] + dp[j-<span class="number">1</span>][(x-i+n)%n])%mod;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	System.out.println(dp[k][<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2017/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%20Raft/" title= "分布式一致性算法 Raft">
+                    <div class="nextTitle">分布式一致性算法 Raft</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2017/05/21/IO%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E3%80%81%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/" title= "IO中的同步异步、阻塞非阻塞">
+                    <div class="prevTitle">IO中的同步异步、阻塞非阻塞</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:3459684141@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/zhenlanghuo" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/zhenlang-huo" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.instagram.com/zhenlanghuo/" class="iconfont-archer instagram" target="_blank" title=instagram></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97"><span class="toc-text">最长递增子序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97"><span class="toc-text">最长公共子序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E4%B8%B2"><span class="toc-text">最长公共子串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E7%BC%96%E8%BE%91%E4%BB%A3%E4%BB%B7"><span class="toc-text">最小编辑代价</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%B8%E7%89%8C%E5%8D%9A%E5%BC%88"><span class="toc-text">纸牌博弈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="toc-text">随机的机器人</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%83%E7%A6%BB%E5%86%9C%E5%9C%BA"><span class="toc-text">逃离农场</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 26
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2023 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/01</span><a class="archive-post-title" href= "/2023/02/01/java%20go%20%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%81%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%20%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" >java go 常用数据结构、并发工具 实现对比</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2022/11/03/%E5%85%B3%E4%BA%8Ezk%E7%9A%84%E6%80%9D%E8%80%83%E4%B8%8E%E6%80%BB%E7%BB%93/" >关于zk的思考与总结</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/06</span><a class="archive-post-title" href= "/2020/02/06/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E4%B8%8E%E5%BD%92%E6%A1%A3%E6%97%A5%E5%BF%97/" >Mysql学习笔记——重做日志与归档日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2020/01/22/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%81/" >Mysql学习笔记——锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/21</span><a class="archive-post-title" href= "/2020/01/21/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E4%B9%8B%E8%B7%AF%E5%B8%B8%E8%A7%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/" >（转）解决死锁之路 - 常见 SQL 语句的加锁分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95/" >Mysql学习笔记——索引</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/07</span><a class="archive-post-title" href= "/2019/09/07/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" >Mysql学习笔记——事务与隔离级别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/21</span><a class="archive-post-title" href= "/2019/07/21/Golang%20databasesql%E4%B8%8Ego-sql-drivermysql%20%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%20--%20go-sql-drivermysql%E7%AF%87/" >Golang database/sql与go-sql-driver/mysql 源码阅读笔记 -- go-sql-driver/mysql篇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2019/06/05/Golang%20databasesql%E4%B8%8Ego-sql-drivermysql%20%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%20--%20databasesql%E7%AF%87/" >Golang database/sql与go-sql-driver/mysql 源码阅读笔记 -- database/sql篇</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2018/07/15/shell%E8%84%9A%E6%9C%AC%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >shell脚本 学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2018/07/14/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/" >Linux 常用命令操作</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2017/08/22/AVL%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AE%9E%E7%8E%B0/" >AVL平衡二叉树的实现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/%E6%AD%A3%E3%80%81%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%EF%BC%8C%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%8CURL%E9%87%8D%E5%86%99/" >正、反向代理，负载均衡，URL重写</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2017/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%20Raft/" >分布式一致性算法 Raft</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/20</span><a class="archive-post-title" href= "/2017/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E9%A2%98%E9%9B%86%E5%8F%8A%E9%A2%98%E8%A7%A3/" >动态规划题集及题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2017/05/21/IO%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E3%80%81%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/" >IO中的同步异步、阻塞非阻塞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/20</span><a class="archive-post-title" href= "/2017/05/20/%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E3%80%81%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%9A%84%E5%8C%BA%E5%88%AB/" >同步异步、阻塞非阻塞的区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/17</span><a class="archive-post-title" href= "/2017/05/17/%E5%93%88%E5%B8%8C%E7%A2%B0%E6%92%9E%E6%94%BB%E5%87%BB/" >哈希碰撞攻击</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/23</span><a class="archive-post-title" href= "/2017/04/23/Reids%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%20%E5%A4%9A%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%89/" >Reids设计与实现（第三部分 多机数据库的实现）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%20%E5%8D%95%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%89/" >Redis设计与实现（第二部分 单机数据库的实现）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2017/04/15/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%EF%BC%89/" >Redis设计与实现（第一部分 数据结构与对象）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2017/04/10/Storm%E6%80%BB%E7%BB%93/" >Storm总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2017/03/10/%E7%B1%BB%E7%9A%84%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%EF%BC%88C++%E5%92%8CJAVA%EF%BC%89/" >类的访问权限（C++和JAVA）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2017/03/08/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%EF%BC%88%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%89/" >深入理解java虚拟机（第三章 垃圾收集器与内存分配策略）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/06</span><a class="archive-post-title" href= "/2017/03/06/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%EF%BC%88%E7%AC%AC%E4%BA%8C%E7%AB%A0%20Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%EF%BC%89/" >深入理解java虚拟机（第二章 Java内存区域）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2017/03/02/JAVA%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" >JAVA集合框架总结</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="AVL"><span class="iconfont-archer">&#xe606;</span>AVL</span>
+    
+        <span class="sidebar-tag-name" data-tags="平衡二叉树"><span class="iconfont-archer">&#xe606;</span>平衡二叉树</span>
+    
+        <span class="sidebar-tag-name" data-tags="数据结构"><span class="iconfont-archer">&#xe606;</span>数据结构</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mysql"><span class="iconfont-archer">&#xe606;</span>Mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="Go"><span class="iconfont-archer">&#xe606;</span>Go</span>
+    
+        <span class="sidebar-tag-name" data-tags="同步异步"><span class="iconfont-archer">&#xe606;</span>同步异步</span>
+    
+        <span class="sidebar-tag-name" data-tags="阻塞非阻塞"><span class="iconfont-archer">&#xe606;</span>阻塞非阻塞</span>
+    
+        <span class="sidebar-tag-name" data-tags="IO"><span class="iconfont-archer">&#xe606;</span>IO</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="redis"><span class="iconfont-archer">&#xe606;</span>redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="storm"><span class="iconfont-archer">&#xe606;</span>storm</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="深入理解java虚拟机"><span class="iconfont-archer">&#xe606;</span>深入理解java虚拟机</span>
+    
+        <span class="sidebar-tag-name" data-tags="分布式"><span class="iconfont-archer">&#xe606;</span>分布式</span>
+    
+        <span class="sidebar-tag-name" data-tags="分布式一致性算法"><span class="iconfont-archer">&#xe606;</span>分布式一致性算法</span>
+    
+        <span class="sidebar-tag-name" data-tags="raft"><span class="iconfont-archer">&#xe606;</span>raft</span>
+    
+        <span class="sidebar-tag-name" data-tags="动态规划"><span class="iconfont-archer">&#xe606;</span>动态规划</span>
+    
+        <span class="sidebar-tag-name" data-tags="哈希"><span class="iconfont-archer">&#xe606;</span>哈希</span>
+    
+        <span class="sidebar-tag-name" data-tags="代理"><span class="iconfont-archer">&#xe606;</span>代理</span>
+    
+        <span class="sidebar-tag-name" data-tags="负载均衡"><span class="iconfont-archer">&#xe606;</span>负载均衡</span>
+    
+        <span class="sidebar-tag-name" data-tags="URL重写"><span class="iconfont-archer">&#xe606;</span>URL重写</span>
+    
+        <span class="sidebar-tag-name" data-tags="C++"><span class="iconfont-archer">&#xe606;</span>C++</span>
+    
+        <span class="sidebar-tag-name" data-tags="zk"><span class="iconfont-archer">&#xe606;</span>zk</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "zhenlanghuo"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
