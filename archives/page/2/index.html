@@ -346,6 +346,49 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/07/15/shell%E8%84%9A%E6%9C%AC%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+            
+                <span>shell脚本 学习笔记</span>
+        </a>
+        <div class="abstract-content">
+            变量
+定义变量
+  12my_name=&quot;zhenlanghuo&quot;       #变量名和等号之间不能有空格for file in `ls /etc`       #用for语句给变量赋值
+使用变量
+  12echo $your_name     echo $&#123;your_name&#125;       #加花括号可以帮助解释器识别变量的边界
+
+
+参数的传递我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：**$n**。n 代表一个数字，1 为执行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……
+几个特殊字符：
+
+
+
+字符...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "linux">linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "shell">shell</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/07/14/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/" >
             
                 <span>Linux 常用命令操作</span>
@@ -681,44 +724,6 @@ Redis 2.8 以前的复制功能不能高效地处理断线后重复制情况， 
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "redis">redis</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/04/20/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%20%E5%8D%95%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%89/" >
-            
-                <span>Redis设计与实现（第二部分 单机数据库的实现）</span>
-        </a>
-        <div class="abstract-content">
-            
-《Redis设计与实现》一书的重要内容摘抄，方便回看复习
-
-
-1.数据库要点
-Redis 服务器的所有数据库都保存在 redisServer.db 数组中， 而数据库的数量则由 redisServer.dbnum 属性保存。
-客户端通过修改目标数据库指针， 让它指向 redisServer.db 数组中的不同元素来切换不同的数据库。
-数据库主要由 dict 和 expires 两个字典构成， 其中 dict 字典负责保存键值对， 而 expires 字典则负责保存键的过期时间。
-因为数据库由字典构成， 所以对数据库的操作都是建立在字典操作之上的。
-数据库的键总是一个字符串对象， 而值则...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/20</span>
             </div>
             <!-- tags  -->
             
@@ -1155,9 +1160,24 @@ Redis 服务器的所有数据库都保存在 redisServer.db 数组中， 而数
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 27
         </div>
         <!-- search  -->
         
@@ -1188,6 +1208,11 @@ Redis 服务器的所有数据库都保存在 redisServer.db 数组中， 而数
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2022/11/03/%E5%85%B3%E4%BA%8Ezk%E7%9A%84%E6%80%9D%E8%80%83%E4%B8%8E%E6%80%BB%E7%BB%93/" >关于zk的思考与总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2022/10/25/%E5%85%B3%E4%BA%8E%20Mysql%20%E6%B7%B1%E7%BF%BB%E9%A1%B5/" >关于 Mysql 深翻页</a>
         </li>
     
     
@@ -1402,6 +1427,10 @@ Redis 服务器的所有数据库都保存在 redisServer.db 数组中， 而数
         <span class="sidebar-tag-name" data-tags="URL重写"><span class="iconfont-archer">&#xe606;</span>URL重写</span>
     
         <span class="sidebar-tag-name" data-tags="C++"><span class="iconfont-archer">&#xe606;</span>C++</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="深翻页"><span class="iconfont-archer">&#xe606;</span>深翻页</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>shell脚本 学习笔记 · zhenlanghuo&#39;s Blog</title>
+    <title>关于 Mysql 深翻页 · zhenlanghuo&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >zhenlanghuo&#39;s Blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">shell脚本 学习笔记</a>
+                <a href="#" class="post-name">关于 Mysql 深翻页</a>
             </div>
     </div>
     
@@ -241,13 +241,13 @@ height:50vh;
     <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/image/bracelet-camera-equipment-954202.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            shell脚本 学习笔记
+            关于 Mysql 深翻页
             <!-- 404 -->
             
         </h1>
@@ -266,20 +266,20 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "linux">linux</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "mysql">mysql</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "shell">shell</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "深翻页">深翻页</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/07/15</span>
+                    <span class="post-intro-time">2022/10/25</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -403,286 +403,103 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
-<li><p><strong>定义变量</strong></p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my_name=&quot;zhenlanghuo&quot;       #变量名和等号之间不能有空格</span><br><span class="line">for file in `ls /etc`       #用for语句给变量赋值</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>使用变量</strong></p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $your_name     </span><br><span class="line">echo $&#123;your_name&#125;       #加花括号可以帮助解释器识别变量的边界</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h2 id="参数的传递"><a href="#参数的传递" class="headerlink" title="参数的传递"></a>参数的传递</h2><p>我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：**$n**。n 代表一个数字，1 为执行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……</p>
-<p>几个特殊字符：</p>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$#</td>
-<td>传递到脚本的参数个数</td>
-</tr>
-<tr>
-<td>$*</td>
-<td>以一个单字符串显示所有向脚本传递的参数。如”$*“用「”」括起来的情况、以”$1 $2 … $n”的形式输出所有参数。</td>
-</tr>
-<tr>
-<td>$$</td>
-<td>脚本运行的当前进程ID号</td>
-</tr>
-<tr>
-<td>$!</td>
-<td>后台运行的最后一个进程的ID号</td>
-</tr>
-<tr>
-<td>$@</td>
-<td>与$*相同，但是使用时加引号，并在引号中返回每个参数。如”$@“用「”」括起来的情况、以”$1” “$2” … “$n” 的形式输出所有参数。</td>
-</tr>
-<tr>
-<td>$-</td>
-<td>显示Shell使用的当前选项，与set命令功能相同。</td>
-</tr>
-<tr>
-<td>$?</td>
-<td>显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><ul>
-<li><p><strong>算数运算符</strong></p>
-<p>  原生bash不支持简单的数学运算，但是可以通过其他命令来实现，例如 awk 和 expr，expr 最常用</p>
-<p>  假定变量 a 为 10，变量 b 为 20：</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>运算符</th>
-<th>说明</th>
-<th>举例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>+</td>
-<td>加法</td>
-<td>`expr $a + $b` 结果为 30。</td>
-</tr>
-<tr>
-<td>-</td>
-<td>减法</td>
-<td>`expr $a - $b` 结果为 -10。</td>
-</tr>
-<tr>
-<td>*</td>
-<td>乘法</td>
-<td>`expr $a \* $b` 结果为 200。</td>
-</tr>
-<tr>
-<td>/</td>
-<td>除法</td>
-<td>`expr $b / $a` 结果为 2。</td>
-</tr>
-<tr>
-<td>%</td>
-<td>取余</td>
-<td>`expr $b % $a` 结果为 0。</td>
-</tr>
-<tr>
-<td>=</td>
-<td>赋值</td>
-<td>a=$b 将把变量 b 的值赋给 a。</td>
-</tr>
-<tr>
-<td>==</td>
-<td>相等。用于比较两个数字，相同则返回 true。</td>
-<td>[ $a == $b ] 返回 false。</td>
-</tr>
-<tr>
-<td>!=</td>
-<td>不相等。用于比较两个数字，不相同则返回 true。</td>
-<td>[ $a != $b ] 返回 true。</td>
-</tr>
-</tbody></table>
-<pre><code>注意：
+        <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> person_tab <span class="keyword">where</span> age <span class="operator">=</span> <span class="number">10</span> limit <span class="number">40000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-- 表达式和运算符之间要有空格，例如 2+2 是不对的，必须写成 2 + 2
+<p>mysql 在执行以上语句时(假设在age字段上设置了索引)，会在 age 索引上找到 age=10 的数据，然后把前面的 40010 个 id 都回表把记录行数据查出来之后，再筛选出第 40000~40010 条数据，因此当 offset 越大，查询就会越慢，这个就是 mysql 的深翻页问题。</p>
+<h2 id="两种解决方法"><a href="#两种解决方法" class="headerlink" title="两种解决方法"></a>两种解决方法</h2><p>对于深翻页问题，一般有以下两种解决方法：</p>
+<ul>
+<li><strong>利用二级索引先查询满足条件的 id 集合，再利用 where id in (xxx, xxx) 来的方式来查询记录行数据</strong> </li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select id from person_tab where age = 10 limit 40000, 10;</span><br><span class="line">select * from person_tab where id in (xxx,xxx,xxx,xxx,...);</span><br></pre></td></tr></table></figure>
+<p>这种方法主要是利用覆盖索引减少了回表的次数</p>
+<ol>
+<li>第一条查询 id 的语句，只查询 id，利用覆盖索引的特性，mysql不会进行回表操作，mysql 把符合要求的前 40010 条数据的 id 扫描出来以后，再筛选出第 40000~40010 条的 id 后返回</li>
+<li>第二条语句会利用一级索引查询满足条件的数据，<code>in</code> 查询的id数量在一定范围内，mysql(5.7.17版本及以后) 是会使用索引的</li>
+<li>需要注意的是，把以上两条语句利用子查询组合成一条语句，mysql 会报 <code>This version of MySQL doesn&#39;t yet support &#39;LIMIT &amp; IN/ALL/ANY/SOME subquery&#39;</code> 的错误（亲测mysql 5.7和8.0均会报这个错误）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from person_tab where id in (select id from person_tab where age = 10 limit 40000, 10);</span><br></pre></td></tr></table></figure>
 
-- 完整的表达式要被 \` \` （反引号）包含，而不是单引号
-
-- 条件表达式要放在方括号之间，并且要有空格，例如: [\$a==\$b] 是错误的，必须写成 [ \$a == \$b ]
-</code></pre>
-<p>​      </p>
 <ul>
-<li><p><strong>关系运算符</strong></p>
-<p>  假定变量 a 为 10，变量 b 为 20：</p>
+<li><strong>使用上一页最后一条数据的某一个或某一组能唯一标识数据的字段的值作为查询下一页的过滤条件进行查询</strong><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from person_tab where age = 10 and id &gt; last_id order by id asc limit 10;</span><br></pre></td></tr></table></figure>
+这种方法主要是利用唯一标识数据的字段作为过滤条件，利用索引过滤掉前面已经筛选过的数据，减少回表或数据遍历</li>
+</ul>
+<p>像上面的例子，我们选取主键id作为查询下一页的过滤条件<br>针对上面的语句，我们分场景的去讨论一下</p>
+<ul>
+<li><strong>没有关于 age 字段作为前缀的索引的情况</strong><br>这种情况，mysql 会走一级(主键)索引进行检索，mysql 会利用一级索引找到 id&gt;last_id 的最小id所在的叶子节点，然后从大于 last_id 的最小id的位置开始按顺序的扫描数据，当找到 limit 个 age=10 的数据就结束<ul>
+<li>这种情况，假设 age = 10 的数据占表的总数据 1/n，而且分布比较均匀，那么平均一次查询的扫描数据行数是 n*limit</li>
+</ul>
+</li>
+<li><strong>有 index_age(age) 索引的情况</strong><br>这种情况，mysql 如果是选择走 index_age 索引，mysql 会利用 index_age 索引，找到第一个满足 age = 10 的叶子结点，然后开始按顺序的扫描二级索引的叶子结点，利用索引下推，过滤掉 id &lt;= last_id 的 id，扫描出 limit 个 id &gt; last_id 的最小的id，再根据id回表查询数据<ul>
+<li>这种情况，需要扫描二级索引叶子节点上的数据个数为 n + limit，n 为满足 age=10 and id &lt;= last_id 的记录数，需要回表查询 limit 个数据</li>
+</ul>
+</li>
+<li><strong>有 index_age_id(age, id) 索引的情况</strong><br>这种情况，mysql 如果是选择走 index_age_id 索引，mysql 会利用 index_age_id 索引，找到第一个满足 age = 10 且 id &gt; last_id 的叶子结点，然后开始按顺序的扫描二级索引的叶子节点，扫描出 limit 个满足条件的 id，<ul>
+<li>这种情况下，需要扫描二级索引叶子节点上的数据个数也是 limit， 需要回表查询 limit 个数据</li>
+</ul>
+</li>
+<li><strong>有 index_age_xx(age, xx) 索引的情况</strong><ul>
+<li>使用 <code>order by id asc</code><br>这种情况，mysql 如果是选择走 index_age_xx 索引，mysql 会利用 index_age_xx 索引，找到第一个满足 age = 10 的叶子节点，然后开始按顺序的扫描二级索引的叶子结点，把所有满足 age = 10 的 index_age_xx 索引数据查出来，然后再使用文件排序按照id升序进行排序，之后再根据排序的结果找到 id&gt;last_id 最小的 limit 个 id，再根据 id 回表查询数据<ul>
+<li>这种情况，每次都需要在二级索引上扫描所有的满足条件的数据，然后再进行文件排序，需要回表查询 limit 个数据</li>
+</ul>
+</li>
+<li>不使用 <code>order by id asc</code><br>这种情况，mysql 如果是选择走 index_age_xx 索引，mysql会利用 index_age_xx 索引，找到第一个满足 age = 10 的叶子结点，然后开始按顺序的扫描二级索引的叶子结点，利用索引下推，过滤掉 id &lt;= last_id 的 id，扫描出 limit 个 id &gt; last_id 的最小的 id，再根据 id 回表查询数据<ul>
+<li>这种情况，需要扫描二级索引叶子节点上的数据个数是 limit，需要回表查询 limit 个数据</li>
+<li>但是这种情况下，不能完全扫描出所有满足要求的数据，因为 index_age_xx 这个二级索引的叶子节点的数据是先按照 age 排序，age 相同再按照 xx 字段排序，xx 字段相同再按照id排序，mysql 执行<code>select * from person_tab force index (index_age_xx) where age = 10  limit 10; </code>这个语句返回的结果是按照 index_age_xx 索引的排序进行返回的，返回的结果不是按照 id 排序的，所以如果使用 id&gt;last_id 进行过滤的话，会过滤掉一些没有被查询过的满足 age=10 的数据。如下表的例子，如果是以 <code>select * from person_tab force index (index_age_xx) where age = 10 and id &gt; last_id limit 2;</code>进行扫描数据，第一次扫描数据 last_id=0，返回 id 为 100 和 102 的数据，第二次扫描数 据last_id=102，返回 id 为 104 的数据，然后结束，id为 87、90、40 的数据就不会被扫描出来</li>
+</ul>
 </li>
 </ul>
 <table>
 <thead>
 <tr>
-<th>运算符</th>
-<th>说明</th>
-<th>举例</th>
+<th>id</th>
+<th>age</th>
+<th>xx</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>-eq</td>
-<td>检测两个数是否相等，相等返回 true。</td>
-<td>[ $a -eq $b ] 返回 false。</td>
+<td>100</td>
+<td>10</td>
+<td>0</td>
 </tr>
 <tr>
-<td>-ne</td>
-<td>检测两个数是否不相等，不相等返回 true。</td>
-<td>[ $a -ne $b ] 返回 true。</td>
+<td>102</td>
+<td>10</td>
+<td>0</td>
 </tr>
 <tr>
-<td>-gt</td>
-<td>检测左边的数是否大于右边的，如果是，则返回 true。</td>
-<td>[ $a -gt $b ] 返回 false。</td>
+<td>104</td>
+<td>10</td>
+<td>0</td>
 </tr>
 <tr>
-<td>-lt</td>
-<td>检测左边的数是否小于右边的，如果是，则返回 true。</td>
-<td>[ $a -lt $b ] 返回 true。</td>
+<td>87</td>
+<td>10</td>
+<td>1</td>
 </tr>
 <tr>
-<td>-ge</td>
-<td>检测左边的数是否大于等于右边的，如果是，则返回 true。</td>
-<td>[ $a -ge $b ] 返回 false。</td>
+<td>90</td>
+<td>10</td>
+<td>1</td>
 </tr>
 <tr>
-<td>-le</td>
-<td>检测左边的数是否小于等于右边的，如果是，则返回 true。</td>
-<td>[ $a -le $b ] 返回 true。</td>
+<td>40</td>
+<td>10</td>
+<td>2</td>
 </tr>
 </tbody></table>
-<ul>
-<li><p>布尔运算符</p>
-<p>  假定变量 a 为 10，变量 b 为 20: </p>
 </li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>运算符</th>
-<th>说明</th>
-<th>举例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>&amp;&amp;</td>
-<td>逻辑的AND</td>
-<td>[[ $a -lt 100 &amp;&amp; $b -gt 100 ]] 返回 false</td>
-</tr>
-<tr>
-<td>||</td>
-<td>逻辑的OR</td>
-<td>[[ $a -lt 100 || $b -gt 100 ]] 返回 true</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>字符串运算符</p>
-<p>  假定变量 a 为 “abc”，变量 b 为 “efg”： </p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>运算符</th>
-<th>说明</th>
-<th>举例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>=</td>
-<td>检测两个字符串是否相等，相等返回 true。</td>
-<td>[ $a = $b ] 返回 false。</td>
-</tr>
-<tr>
-<td>!=</td>
-<td>检测两个字符串是否相等，不相等返回 true。</td>
-<td>[ $a != $b ] 返回 true。</td>
-</tr>
-<tr>
-<td>-z</td>
-<td>检测字符串长度是否为0，为0返回 true。</td>
-<td>[ -z $a ] 返回 false。</td>
-</tr>
-<tr>
-<td>-n</td>
-<td>检测字符串长度是否为0，不为0返回 true。</td>
-<td>[ -n “$a” ] 返回 true。</td>
-</tr>
-<tr>
-<td>str</td>
-<td>检测字符串是否为空，不为空返回 true。</td>
-<td>[ $a ] 返回 true。</td>
-</tr>
-</tbody></table>
-<ul>
-<li>文件测试运算符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>操作符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-b file</td>
-<td>检测文件是否是块设备文件，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-c file</td>
-<td>检测文件是否是字符设备文件，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-d file</td>
-<td>检测文件是否是目录，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-f file</td>
-<td>检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-g file</td>
-<td>检测文件是否设置了 SGID 位，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-k file</td>
-<td>检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-p file</td>
-<td>检测文件是否是有名管道，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-u file</td>
-<td>检测文件是否设置了 SUID 位，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-r file</td>
-<td>检测文件是否可读，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-w file</td>
-<td>检测文件是否可写，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-x file</td>
-<td>检测文件是否可执行，如果是，则返回 true。</td>
-</tr>
-<tr>
-<td>-s file</td>
-<td>检测文件是否为空（文件大小是否大于0），不为空返回 true。</td>
-</tr>
-<tr>
-<td>-e file</td>
-<td>检测文件（包括目录）是否存在，如果是，则返回 true。</td>
-</tr>
-</tbody></table>
+<p>通过设定过滤条件 id &gt; last_id 来过滤数据，隐含的条件就是返回的数据是按照 id 升序进行排序的，因此需要加上 order by id asc，这个不是为了性能提升，是为了保证能够扫描出所有满足条件的数据，是了保证语义，告诉 mysql 我们的意图就是需要按照 id 升序来返回数据，因为在某些场景下，我们不加 order by id asc，mysql 就不会按照 id 升序来返回数据。</p>
+<p>可以再举一个例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from person_tab where id &gt; last_id limit 100;</span><br></pre></td></tr></table></figure>
+<p>使用以上的语句进行遍历扫描数据，是有可能扫描不到所有的数据的，原因是 mysql 可能会只使用某个二级索引来查询数据返回(因为只需要返回 id，使用二级索引性能会更高)，返回的数据不是按照 id 升序的返回的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from person_tab where id &gt; last_id order by id asc limit 100;</span><br></pre></td></tr></table></figure>
+<p>加上 order by id asc 之后，mysql 会选择使用一级索引来查询数据进行返回，因为使用一级索引性能更高(一级索引就是按照 id 排序的，使用二级索引的话需要进行文件排序)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>没有合适的二级索引(使用一级索引)的情况下，第二种方法(id &gt; last_id order by id asc)在非极端情况下比第一种方法(id in (xxx,xx,xx))比要好</li>
+<li>有对应合适的二级索引的情况下，第一种方法比第二种方法要好</li>
+<li>有针对性优化的二级索引(index_age_id)的情况下，第二种方式比第一种方法要好</li>
+</ol>
 
     </article>
     <!-- license  -->
@@ -692,16 +509,16 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/06/05/Golang%20databasesql%E4%B8%8Ego-sql-drivermysql%20%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%20--%20databasesql%E7%AF%87/" title= "Golang database/sql与go-sql-driver/mysql 源码阅读笔记 -- database/sql篇">
-                    <div class="nextTitle">Golang database/sql与go-sql-driver/mysql 源码阅读笔记 -- database/sql篇</div>
+                <a href= "/2022/11/03/%E5%85%B3%E4%BA%8Ezk%E7%9A%84%E6%80%9D%E8%80%83%E4%B8%8E%E6%80%BB%E7%BB%93/" title= "关于zk的思考与总结">
+                    <div class="nextTitle">关于zk的思考与总结</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2018/07/14/Linux%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/" title= "Linux 常用命令操作">
-                    <div class="prevTitle">Linux 常用命令操作</div>
+                <a href= "/2020/02/06/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E4%B8%8E%E5%BD%92%E6%A1%A3%E6%97%A5%E5%BF%97/" title= "Mysql学习笔记——重做日志与归档日志">
+                    <div class="prevTitle">Mysql学习笔记——重做日志与归档日志</div>
                 </a>
             
         </li>
@@ -821,7 +638,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E9%80%92"><span class="toc-text">参数的传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">运算符</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">两种解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

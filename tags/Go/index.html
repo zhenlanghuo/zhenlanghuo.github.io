@@ -346,62 +346,49 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/21/Golang%20databasesql%E4%B8%8Ego-sql-drivermysql%20%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%20--%20go-sql-drivermysql%E7%AF%87/" >
+        <a class="abstract-title" href = "/2023/02/01/java%20go%20%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%81%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%20%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" >
             
-                <span>Golang database/sql与go-sql-driver/mysql 源码阅读笔记 -- go-sql-driver/mysql篇</span>
+                <span>java go 常用数据结构、并发工具 实现对比</span>
         </a>
         <div class="abstract-content">
-            driver.goconnector.go123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126// Con...
+            hashmapJava
+
+冲突链表：数组+链表
+java8：数组+链表+红黑树（链表元素大于8个时会转变为红黑树）
+扩容：每次扩大一倍容量，一次性扩容
+
+
+Go
+
+冲突链表：数组+链表+溢出桶(也是链表，每个哈希桶只能装8个元素，超过8个就放到溢出桶中，每个溢出桶也是8个元素)
+扩容：
+翻倍扩容：装载因子超过6.5
+等量扩容：溢出桶太多
+增量扩容：每次对 hashmap 进行写操作会迁移一到两个哈希桶
+
+
+
+
+
+线程安全的hashmapJava
+ConcurrentHashMap
+
+java5到java7：
+采用分段锁的机制实现：segment（默认16个） + 哈希桶
+扩容：segme...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/21</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/02/01</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Mysql">Mysql</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Go">Go</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/06/05/Golang%20databasesql%E4%B8%8Ego-sql-drivermysql%20%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%20--%20databasesql%E7%AF%87/" >
-            
-                <span>Golang database/sql与go-sql-driver/mysql 源码阅读笔记 -- database/sql篇</span>
-        </a>
-        <div class="abstract-content">
-            
-偶然看见golang之database/sql与go-sql-driver这篇博客，让我有了阅读学习go数据库访问接口和mysql驱动实现的源码的想法和动力。
-因为刚好工作负责的组件中就是需要使用mysql，之前就出现过一些问题，但是因为当时对go database/sql和go-sql-driver/mysql的源码一点都不熟悉，只会用几个api，对于问题出现的原因一头雾水，希望通过阅读学习源码提升能力的同时，以后出现问题可以更加清楚应该怎么解决。
-
-
-前言database/sql主要是提供了对数据库的读写操作的接口和数据库连接池功能，需要向其注册相应的数据库驱动才能工作。
-go-s...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Mysql">Mysql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Go">Go</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "go">go</a>
     
 </div>
             
@@ -828,9 +815,24 @@ go-s...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 27
         </div>
         <!-- search  -->
         
@@ -861,6 +863,11 @@ go-s...
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2022/11/03/%E5%85%B3%E4%BA%8Ezk%E7%9A%84%E6%80%9D%E8%80%83%E4%B8%8E%E6%80%BB%E7%BB%93/" >关于zk的思考与总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2022/10/25/%E5%85%B3%E4%BA%8E%20Mysql%20%E6%B7%B1%E7%BF%BB%E9%A1%B5/" >关于 Mysql 深翻页</a>
         </li>
     
     
@@ -1076,6 +1083,10 @@ go-s...
     
         <span class="sidebar-tag-name" data-tags="C++"><span class="iconfont-archer">&#xe606;</span>C++</span>
     
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="深翻页"><span class="iconfont-archer">&#xe606;</span>深翻页</span>
+    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1087,6 +1098,66 @@ go-s...
     <pre style="color: #787878; font-size: 0.6rem;">
 jsonContent:
   meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "zhenlanghuo"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+     
+    </body>
+</html>
+
+
+: false
   pages: false
   posts:
     title: true

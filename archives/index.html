@@ -444,6 +444,42 @@ Zk客户端给节点1发送请求或者心跳，发现节点1挂掉了，会进�
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2022/10/25/%E5%85%B3%E4%BA%8E%20Mysql%20%E6%B7%B1%E7%BF%BB%E9%A1%B5/" >
+            
+                <span>关于 Mysql 深翻页</span>
+        </a>
+        <div class="abstract-content">
+            1select * from person_tab where age = 10 limit 40000, 10;
+
+mysql 在执行以上语句时(假设在age字段上设置了索引)，会在 age 索引上找到 age=10 的数据，然后把前面的 40010 个 id 都回表把记录行数据查出来之后，再筛选出第 40000~40010 条数据，因此当 offset 越大，查询就会越慢，这个就是 mysql 的深翻页问题。
+两种解决方法对于深翻页问题，一般有以下两种解决方法：
+
+利用二级索引先查询满足条件的 id 集合，再利用 where id in (xxx, xxx) 来的方式来查询记录行数据...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/10/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "mysql">mysql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "深翻页">深翻页</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/02/06/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E4%B8%8E%E5%BD%92%E6%A1%A3%E6%97%A5%E5%BF%97/" >
             
                 <span>Mysql学习笔记——重做日志与归档日志</span>
@@ -686,49 +722,6 @@ go-s...
         <a class="post-tag" href="javascript:void(0);" data-tags = "Mysql">Mysql</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Go">Go</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/07/15/shell%E8%84%9A%E6%9C%AC%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
-            
-                <span>shell脚本 学习笔记</span>
-        </a>
-        <div class="abstract-content">
-            变量
-定义变量
-  12my_name=&quot;zhenlanghuo&quot;       #变量名和等号之间不能有空格for file in `ls /etc`       #用for语句给变量赋值
-使用变量
-  12echo $your_name     echo $&#123;your_name&#125;       #加花括号可以帮助解释器识别变量的边界
-
-
-参数的传递我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：**$n**。n 代表一个数字，1 为执行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……
-几个特殊字符：
-
-
-
-字符...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "linux">linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "shell">shell</a>
     
 </div>
             
@@ -1159,9 +1152,24 @@ go-s...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 27
         </div>
         <!-- search  -->
         
@@ -1192,6 +1200,11 @@ go-s...
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2022/11/03/%E5%85%B3%E4%BA%8Ezk%E7%9A%84%E6%80%9D%E8%80%83%E4%B8%8E%E6%80%BB%E7%BB%93/" >关于zk的思考与总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2022/10/25/%E5%85%B3%E4%BA%8E%20Mysql%20%E6%B7%B1%E7%BF%BB%E9%A1%B5/" >关于 Mysql 深翻页</a>
         </li>
     
     
@@ -1406,6 +1419,10 @@ go-s...
         <span class="sidebar-tag-name" data-tags="URL重写"><span class="iconfont-archer">&#xe606;</span>URL重写</span>
     
         <span class="sidebar-tag-name" data-tags="C++"><span class="iconfont-archer">&#xe606;</span>C++</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="深翻页"><span class="iconfont-archer">&#xe606;</span>深翻页</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
